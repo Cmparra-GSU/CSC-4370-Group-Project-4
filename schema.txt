@@ -18,8 +18,10 @@ CREATE TABLE Property (
     Parking BOOLEAN NOT NULL,
     nearbyFacilities TEXT,
     nearbyMainRoads TEXT,
-    PropertyValue DECIMAL(10,2) NOT NULL
+    PropertyValue DECIMAL(10,2) NOT NULL,
+    status ENUM('forSale', 'pending', 'sold') NOT NULL DEFAULT 'forSale'
 );
+
 
 CREATE TABLE CreditCard (
     CardID INT AUTO_INCREMENT PRIMARY KEY,

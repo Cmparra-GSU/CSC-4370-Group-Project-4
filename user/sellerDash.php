@@ -9,7 +9,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Dashboard</title>
-    <!-- Include any additional CSS files here -->
+    <link rel="stylesheet" href="seller.css">
+
 </head>
 <body>
     <header>
@@ -33,7 +34,6 @@ session_start();
             if ($sellerInfo) {
                 echo "<p>Name: " . $sellerInfo['name'] . "</p>";
                 echo "<p>Email: " . $sellerInfo['email'] . "</p>";
-                // Include more seller info here
             } else {
                 echo "<p>Seller information not found.</p>";
             }
@@ -44,20 +44,33 @@ session_start();
         <section id="properties-list">
             <h2>Your Properties for Sale</h2>
             <?php
-            // Assuming you have a database connection established
-            // Fetch seller's properties from the database
-            // $properties = fetchPropertiesFromDatabase();
+            $userUID = $_SESSION['user_id'];
+
+            $properties = getProps($userUID);
 
             if (empty($properties)) {
                 echo "<p>You haven't listed any properties, please add one now.</p>";
             } else {
-                // Iterate through properties and display them
                 foreach ($properties as $property) {
+                    // TODO: add new functions for seeing who's wishlisted your property as well as property status (sold, pending, for sale)
                     echo "<div class='property'>";
-                    echo "<h3>" . $property['name'] . "</h3>";
-                    // Include more property details here
+                    echo "<div class='property-info'>";
+                    echo "<p><strong>Address:</strong> " . $property['Location'] . "</p>"; // Adjust the field name as needed
+                    echo "<p><strong>Value:</strong> $" . $property['PropertyValue'] . "</p>"; // Adjust the field name as needed
+                    echo "</div>";
+                
+                    /* can't test because i don't have access to the codd server
+                    $propertyImages = getPropertyImages($property['PropertyID']); // You need to implement this function
+                    if (!empty($propertyImages)) {
+                        $firstImageURL = $propertyImages[0]['imageURL'];
+                        echo "<img src='$firstImageURL' class='property-image' alt='Property Image'>";
+                    }*/
+                
+                    echo "<a href='propertyDetails.php?propertyID=" . $property['PropertyID'] . "' class='view-button'>View</a>";
+                    echo "<a href='editProperty.php?propertyID=" . $property['PropertyID'] . "' class='edit-button'>Edit</a>";
                     echo "</div>";
                 }
+                
             }
             ?>
 

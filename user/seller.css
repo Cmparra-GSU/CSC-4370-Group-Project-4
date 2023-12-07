@@ -1,0 +1,29 @@
+.property {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.property-info {
+    flex: 1;
+}
+
+.view-button,
+.edit-button {
+    text-decoration: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.view-button:hover,
+.edit-button:hover {
+    background-color: #0056b3;
+}
