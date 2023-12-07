@@ -16,20 +16,33 @@ if (isset($_SESSION['signup_error'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PropertY-hub</title>
+    <title>Georgia Doors</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Playfair+Display:wght@400;700&family=Poiret+One&family=Tenor+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
+        <div class="logo-container">
+            <div class="logo-text">
+                <span class="peach-text">Georgia</span>
+                <div class="about-icon"></div>
+                <span>Doors</span>
+            </div>
+        </div>
     </header>
 
     <main>
         <section id="about-us">
-            <h2>About Us</h2>
+            
             <p>
-                Welcome to PropertY-hub, your trusted partner in buying and selling properties. [Add more about your company here...]
+                Welcome to Georgia Doors – Your Trusted Partner in Georgia Real Estate! We're your gateway to the vibrant and diverse property market of the Peach State.
             </p>
         </section>
+
+
+
 
         <section id="user-action">
             <?php
@@ -52,7 +65,6 @@ if (isset($_SESSION['signup_error'])) {
 
     </main>
 
-    <!-- these are outside of the main tags because they're hidden and pop up when clicked  -->
     <div id="login-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeLoginModal()">&times;</span>

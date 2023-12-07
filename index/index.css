@@ -1,3 +1,96 @@
+/* Reset some default styles */
+body, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial';
+
+}
+
+/* Header with peach background */
+header {
+    background-image: url('index.png');
+    background-size: cover;
+    height: 150px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #FFDAB9; /* Peach color */
+}
+
+/* Main container with light background */
+main {
+    padding: 20px;
+}
+
+/* About Us section styling */
+#about-us {
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+
+}
+/* Add styling for the logo container */
+.logo-container {
+    text-align: center;
+    padding: 15px; /* Adjust padding as needed for spacing around the text */
+    background-color: rgba(255, 255, 255, 0.7); /* RGBA color with 70% opacity */
+    height: 150px;
+    margin-top: -25px;
+
+
+}
+
+/* Style the logo text */
+.logo-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 74px;
+    font-weight: thin;
+
+}
+
+/* Style the "Georgia" text in peach color with a shadow */
+.peach-text {
+    color: #FFDAB9; /* Peach color */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a shadow with a darker color and some blur */
+
+}
+
+/* Style the icon */
+.about-icon {
+    background-image: url('icon.png'); /* Path to your icon image */
+    background-size: contain; /* Scale the icon to fit within the container */
+    background-repeat: no-repeat;
+    width: 150px; /* Adjust the width of the icon as needed */
+    height: 150px; /* Adjust the height of the icon as needed */   
+}
+
+
+/* User Action section styling */
+#user-action {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Buttons with peach background */
+button {
+    background-color: #FF9966; /* Peach color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #FF6600; /* Darker peach color */
+}
+
+/* Modal styling */
 .modal {
     display: none;
     position: fixed;
@@ -7,7 +100,7 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     border: 1px solid black;
 }
 
@@ -19,6 +112,7 @@
     width: 80%;
 }
 
+/* Close button styling */
 .close-button {
     color: #aaa;
     float: right;
@@ -31,4 +125,41 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Form input and label styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin: 10px 0;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Footer styling (customize as needed) */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #333;
+    color: white;
+}
+
+/* Media query for smaller screens (adjust breakpoints as needed) */
+@media (max-width: 768px) {
+    header {
+        height: 200px;
+    }
 }
