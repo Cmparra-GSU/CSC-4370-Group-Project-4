@@ -1,8 +1,17 @@
 /* Reset some default styles */
+@font-face {
+    font-family: 'ge_inspiraregular';
+    src: url('ge_inspira_regular-webfont.woff2') format('woff2'),
+         url('ge_inspira_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body, h1, h2, p, ul, li {
     margin: 0;
     padding: 0;
-    font-family: 'Arial';
+    font-family: 'ge_inspiraregular';
 
 }
 
@@ -46,13 +55,13 @@ main {
     align-items: center;
     justify-content: center;
     font-size: 74px;
-    font-weight: thin;
+    font-weight: bold;
 
 }
 
 /* Style the "Georgia" text in peach color with a shadow */
 .peach-text {
-    color: #FFDAB9; /* Peach color */
+    color: #92220f; /* Peach color */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a shadow with a darker color and some blur */
 
 }

@@ -28,7 +28,7 @@ if (isset($_SESSION['signup_error'])) {
             <div class="logo-text">
                 <span class="peach-text">Georgia</span>
                 <div class="about-icon"></div>
-                <span>Doors</span>
+                <span class="peach-text">Doors</span>
             </div>
         </div>
     </header>
