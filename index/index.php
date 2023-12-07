@@ -104,7 +104,7 @@ if (isset($_SESSION['signup_error'])) {
                 </select>
             </div>
             <div>
-                <button type="submit" id="signup-button" disabled>Sign Up</button>
+                <button type="submit" id="signup-button">Sign Up</button>
             </div>
         </form>
     </div>

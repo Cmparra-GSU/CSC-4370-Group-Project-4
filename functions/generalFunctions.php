@@ -1,10 +1,9 @@
 <?php
 function connect() {
-    //temp setup, will need to change once we have it hosted on codd
-    $servername = "127.0.0.1";
-    $username = "root";
-    $password = "";
-    $dbname = "realty";
+    $servername = "localhost";
+    $username = "cparra3";
+    $password = "cparra3";
+    $dbname = "cparra3";
 
     // Create a connection to the database
     $conn = new mysqli($servername, $username, $password, $dbname);
