@@ -38,6 +38,7 @@ function getPropertyById($propertyID, $userUID) {
         echo "Error: " . $e->getMessage();
         return null;
     } finally {
+        $stmt->close(); // Close the prepared statement
         $conn->close(); // Close the database connection
     }
 }
@@ -78,38 +79,10 @@ function updateProperty($propertyID, $newLocation, $newAge, $newSquareFootage, $
         echo "Error: " . $e->getMessage();
         return false; // Update failed
     } finally {
+        $stmt->close(); // Close the prepared statement
         $conn->close(); // Close the database connection
     }
 }
-
-
-
-function getRecentHomes() {
-    $conn = connect(); // Replace with your database connection function
-
-    // Define the query to fetch recently added homes
-    $query = "SELECT Property.PropertyID, Property.Location, Property.PropertyValue
-              FROM Property
-              WHERE Property.status = 'forSale'  -- You can add additional conditions if needed
-              ORDER BY Property.PropertyID DESC  -- Order by PropertyID (you can change the ordering criteria)
-              LIMIT 5"; // Limit the results to the latest 5 properties, you can adjust this number as needed
-
-    $result = mysqli_query($conn, $query);
-
-    $recentlyAddedHomes = array();
-
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $recentlyAddedHomes[] = $row;
-        }
-    }
-
-    mysqli_close($conn);
-
-    return $recentlyAddedHomes;
-}
-
-
 
 function getPropertyImages($propertyID) {
     $conn = connect(); // Replace with your database connection function
@@ -133,44 +106,142 @@ function getPropertyImages($propertyID) {
     return $imageURLs;
 }
 
-function getPropertyDetails($propertyID) {
-    $conn = connect(); // Replace with your database connection function
+function getUserInfo($userUID) {
+    $conn = connect();
 
-    // Sanitize the input
-    $propertyID = mysqli_real_escape_string($conn, $propertyID);
+    try {
+        // Prepare a SQL query to retrieve user information
+        $query = "SELECT * FROM User WHERE UID = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('i', $userUID);
 
-    // Prepare a SQL query to retrieve the property details
-    $query = "SELECT * FROM Property WHERE PropertyID = $propertyID";
+        // Execute the query
+        $stmt->execute();
 
-    $result = mysqli_query($conn, $query);
+        // Fetch user data as an associative array
+        $result = $stmt->get_result();
+        $userInfo = $result->fetch_assoc();
 
-    if ($result) {
-        // Fetch the property data as an associative array
-        $property = mysqli_fetch_assoc($result);
-
-        mysqli_close($conn);
-
-        return $property;
-    } else {
-        // Handle the query error here
-        echo "Error: " . mysqli_error($conn);
-        mysqli_close($conn);
+        return $userInfo;
+    } catch (Exception $e) {
+        // Handle any database errors here
+        echo "Error: " . $e->getMessage();
         return null;
+    } finally {
+        $stmt->close(); // Close the prepared statement
+        $conn->close(); // Close the database connection
     }
 }
 
-function getStatus($status) {
-    switch ($status) {
-        case 'forSale':
-            return 'For Sale';
-        case 'pending':
-            return 'Pending';
-        case 'sold':
-            return 'Sold';
-        default:
-            return 'Unknown'; // Handle any unexpected status values
+// generalFunctions.php
+
+// ... (existing code)
+
+function getAllProperties() {
+    $conn = connect();
+
+    try {
+        $query = "SELECT * FROM Property";
+        $result = $conn->query($query);
+
+        if ($result) {
+            $properties = $result->fetch_all(MYSQLI_ASSOC);
+            return $properties;
+        } else {
+            // Handle query error
+            echo "Error: " . $conn->error;
+            return null;
+        }
+    } catch (Exception $e) {
+        // Handle any other errors
+        echo "Error: " . $e->getMessage();
+        return null;
+    } finally {
+        $conn->close();
+    }
+}
+function addToWishlist($userUID, $propertyID) {
+    $conn = connect();
+
+    try {
+        $query = "INSERT INTO Wishlist (UserUID, PropertyID) VALUES (?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('ii', $userUID, $propertyID);
+        $stmt->execute();
+
+        return true;
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    } finally {
+        $stmt->close();
+        $conn->close();
     }
 }
 
+function getWishlist($userUID) {
+    $conn = connect();
+
+    try {
+        $query = "SELECT * FROM Wishlist WHERE UserUID = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('i', $userUID);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $wishlist = array();
+
+        while ($row = $result->fetch_assoc()) {
+            $wishlist[] = $row;
+        }
+
+        return $wishlist;
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return null;
+    } finally {
+        $stmt->close();
+        $conn->close();
+    }
+}
+
+
+
+function updateUserInfo($userUID, $newName, $newEmail, $newPassword) {
+    $conn = connect();
+
+    try {
+        // Prepare a SQL query to update user information
+        $query = "UPDATE User 
+                  SET fName = ?, 
+                      email = ?, 
+                      hashedPass = ? 
+                  WHERE UID = ?";
+
+        // Hash the new password before updating
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('sssi', $newName, $newEmail, $hashedPassword, $userUID);
+
+        // Execute the query
+        $stmt->execute();
+
+        // Check if the update was successful
+        if ($stmt->affected_rows > 0) {
+            return true; // Update successful
+        } else {
+            return false; // No rows were affected, possibly the user ID doesn't exist
+        }
+    } catch (Exception $e) {
+        // Handle any database errors here
+        echo "Error: " . $e->getMessage();
+        return false; // Update failed
+    } finally {
+        $stmt->close(); // Close the prepared statement
+        $conn->close(); // Close the database connection
+    }
+}
 
 ?>
