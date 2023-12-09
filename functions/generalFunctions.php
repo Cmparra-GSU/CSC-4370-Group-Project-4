@@ -82,6 +82,35 @@ function updateProperty($propertyID, $newLocation, $newAge, $newSquareFootage, $
     }
 }
 
+
+
+function getRecentHomes() {
+    $conn = connect(); // Replace with your database connection function
+
+    // Define the query to fetch recently added homes
+    $query = "SELECT Property.PropertyID, Property.Location, Property.PropertyValue
+              FROM Property
+              WHERE Property.status = 'forSale'  -- You can add additional conditions if needed
+              ORDER BY Property.PropertyID DESC  -- Order by PropertyID (you can change the ordering criteria)
+              LIMIT 5"; // Limit the results to the latest 5 properties, you can adjust this number as needed
+
+    $result = mysqli_query($conn, $query);
+
+    $recentlyAddedHomes = array();
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $recentlyAddedHomes[] = $row;
+        }
+    }
+
+    mysqli_close($conn);
+
+    return $recentlyAddedHomes;
+}
+
+
+
 function getPropertyImages($propertyID) {
     $conn = connect(); // Replace with your database connection function
 
@@ -129,5 +158,19 @@ function getPropertyDetails($propertyID) {
         return null;
     }
 }
+
+function getStatus($status) {
+    switch ($status) {
+        case 'forSale':
+            return 'For Sale';
+        case 'pending':
+            return 'Pending';
+        case 'sold':
+            return 'Sold';
+        default:
+            return 'Unknown'; // Handle any unexpected status values
+    }
+}
+
 
 ?>

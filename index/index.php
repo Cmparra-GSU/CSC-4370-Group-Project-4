@@ -34,31 +34,38 @@ if (isset($_SESSION['signup_error'])) {
     </header>
 
     <main>
-        <section id="about-us">
-            
-            <p>
-                Welcome to Georgia Doors – Your Trusted Partner in Georgia Real Estate! We're your gateway to the vibrant and diverse property market of the Peach State.
-            </p>
-        </section>
+        
 
-
-
+        <div class="split">
+            <div class="left-section">
+                <!-- Image goes here -->
+                <img src="atl.jpg" alt="Atlanta">
+            </div>
+            <div class="right-section">
+                <!-- Text content goes here -->
+                <h2> Welcome to Georgia Doors <br> Your Trusted Partner in Georgia Real Estate!
+                </h2>
+                <p>Georgia doors was established in 2023 with the goal of streamlining the home buying process. Our focus solely on the state of Georgia makes it easier
+                    to provide a highly personalized experience tailored exclusively to Georgia home buyers and sellers. Whether you're moving in or out, our commitment 
+                    is to equip you with the essential resources for a seamless home sale or purchase. Your home, your Georgia – we're here to make it all effortlessly yours."
+                </p>
+            </div>
+        </div>
 
         <section id="user-action">
             <?php
             if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
                 // Check user role and redirect accordingly
                 if ($_SESSION['user_role'] == 'buyer') {
-                    echo '<button onclick="location.href=\'../user/buyerDash.php\'">Continue to Buyer Dashboard</button>';
-                    echo '<a href="logout.php">Logout</a>';
+                    echo '<button id="login-button" onclick="location.href=\'../user/buyerDash.php\'">Dashboard</button>';
+                    echo '<button id="signup-button" onclick="location.href=\'logout.php\'">Logout</button>';
                 } elseif ($_SESSION['user_role'] == 'seller') {
-                    echo '<button onclick="location.href=\'../user/sellerDash.php\'">Continue to Seller Dashboard</button>';
-                    echo '<a href="logout.php">Logout</a>
-                    ';
+                    echo '<button id="login-button" onclick="location.href=\'../user/sellerDash.php\'">Dashboard</button>';
+                    echo '<button id="signup-button" onclick="location.href=\'logout.php\'">Logout</button>';
                 }
             } else {
-                echo '<button onclick="openLoginModal()">Login</button>';
-                echo '<button onclick="openModal()">Sign Up</button>';
+                echo '<button id="login-button" onclick="openLoginModal()">Login</button>';
+                echo '<button id="signup-button" onclick="openModal()">Sign Up</button>';
             }
             ?>
         </section>
@@ -122,12 +129,88 @@ if (isset($_SESSION['signup_error'])) {
     </div>
 </div>
 
+<div class="homes-section">
+    <div class="recent-label">
+        <h2>Recently Added Homes</h2>
+        <a href="#" class="view-all-button">View All</a>
+    </div>
 
-    <footer>
-        <!-- Footer content here -->
-    </footer>
+    <div class="homes-container">
+        <?php
+        $recentlyAddedHomes = getRecentHomes();
+
+        if (!empty($recentlyAddedHomes)) {
+            foreach ($recentlyAddedHomes as $home) {
+                // Wrap each home card with an anchor link
+                echo '<a href="../user/propertyDetails.php?propertyID=' . $home['PropertyID'] . '" class="home-link">';
+                echo '<div class="home-card">';
+                $imageURLs = getPropertyImages($home['PropertyID']);
+
+                echo '<img class="home-image" src="' . (!empty($imageURLs) ? $imageURLs[0] : 'placeholder.jpg') . '" alt="Home Image">'; // Display the first image
+
+                echo '<div class="home-info">';
+                echo '<p class="home-location">' . $home['Location'] . '</p>'; // Display property location
+                echo '<p class="home-value">$' . $home['PropertyValue'] . '</p>'; // Display property value
+                echo '</div>'; // Close the home-info div
+                echo '</div>'; // Close the home-card div
+                echo '</a>'; // Close the anchor link
+            }
+        } else {
+            echo '<p>No recently added homes found.</p>';
+        }
+        ?>
+    </div>
+</div>
+
+
 
 <script src="index.js"></script>
+
+<script>
+const testimonials = document.querySelectorAll('.testimonial');
+let currentTestimonial = 0;
+let intervalId; // Variable to store the interval ID
+
+function showTestimonial(index) {
+    testimonials.forEach((testimonial, i) => {
+        testimonial.style.display = i === index ? 'block' : 'none';
+    });
+}
+
+function nextTestimonial() {
+    currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+    showTestimonial(currentTestimonial);
+}
+
+function prevTestimonial() {
+    currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+    showTestimonial(currentTestimonial);
+}
+
+function startInterval() {
+    intervalId = setInterval(nextTestimonial, 10000); // Change testimonial every 10 seconds
+}
+
+// Initialize by showing the first testimonial and start the interval
+showTestimonial(currentTestimonial);
+startInterval();
+
+// Add event listeners to navigation buttons
+const prevButton = document.getElementById('prevTestimonial');
+const nextButton = document.getElementById('nextTestimonial');
+
+prevButton.addEventListener('click', () => {
+    clearInterval(intervalId); // Clear the existing interval
+    prevTestimonial();
+    startInterval(); // Start a new interval
+});
+
+nextButton.addEventListener('click', () => {
+    clearInterval(intervalId); // Clear the existing interval
+    nextTestimonial();
+    startInterval(); // Start a new interval
+});
+</script>
 
 
 </body>

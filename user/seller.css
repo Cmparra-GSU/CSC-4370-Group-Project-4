@@ -1,29 +1,128 @@
-.property {
-    border: 1px solid #ccc;
-    padding: 10px;
+body {
+    font-family: 'ge_inspiraregular', sans-serif;
+    background-color: #f6d7b0;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-image: url('index.png');
+    background-size: cover;
+    height: 150px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+main {
+    padding: 20px;
+}
+
+h1 {
+    font-size: 36px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+a.back-link {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #FF9966;
+    transition: color 0.3s;
+}
+
+a.back-link:hover {
+    color: #FF6600;
+}
+
+/* Seller Information Section */
+#seller-info {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#seller-info h2 {
+    font-size: 24px;
     margin-bottom: 10px;
+}
+
+#seller-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Properties List Section */
+#properties-list {
+    margin-top: 20px;
+}
+
+#properties-list h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.property {
+    background-color: #f8b878;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    width: 20%;
 }
 
 .property-info {
     flex: 1;
 }
 
-.view-button,
-.edit-button {
-    text-decoration: none;
-    padding: 5px 10px;
-    margin-left: 10px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+.property-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
-.view-button:hover,
-.edit-button:hover {
-    background-color: #0056b3;
+.view-button, .edit-button, .delete-button {
+    background-color: #FF9966;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.view-button, .edit-button, .delete-button{
+    width: 75px;
+}
+
+.delete-button {
+    background-color: #FF3333; /* Red color for delete button */
+}
+
+.view-button:hover, .edit-button:hover {
+    background-color: #FF6600;
+}
+.button-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: flex-start; /* Align buttons to the left */
+    margin-top: 3px; /* Adjust the margin as needed */
+}
+
+.buttons {
+    display: inline-block;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    font-size: 14px;
+
 }

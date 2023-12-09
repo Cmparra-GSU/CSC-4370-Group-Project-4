@@ -19,7 +19,7 @@ session_start();
 
     <main>
         <h1>Welcome to Your Seller Dashboard</h1>
-        <a href = "../index/index.php">back</a>
+        <a href="../index/index.php" class="back-link">Back to Home</a>
         <!-- Seller Information Overview -->
         <section id="seller-info">
             <h2>Your Information</h2>
@@ -52,32 +52,36 @@ session_start();
                 echo "<p>You haven't listed any properties, please add one now.</p>";
             } else {
                 foreach ($properties as $property) {
-                    // TODO: add new functions for seeing who's wishlisted your property as well as property status (sold, pending, for sale)
-                    echo "<div class='property'>";
-                    echo "<div class='property-info'>";
-                    echo "<p><strong>Address:</strong> " . $property['Location'] . "</p>"; // Adjust the field name as needed
-                    echo "<p><strong>Value:</strong> $" . $property['PropertyValue'] . "</p>"; // Adjust the field name as needed
-                    echo "</div>";
+                    echo '<div class="property">';
+                    echo '<div class="property-info">';
+                    echo '<p>' . $property['Location'] . '</p>';
+                    echo '<p>' . $status . '</p>'; // Wrap the status in a <p> tag
+                    echo '</div>';
+                    
+                    // Create a container div for the buttons
+                    echo '<div class="button-container">';
+                    echo '<a href="propertyDetails.php?propertyID=' . $property['PropertyID'] . '" class="buttons view-button">View</a>';
+                    echo '<a href="editProperty.php?propertyID=' . $property['PropertyID'] . '" class="buttons edit-button">Edit</a>';
+                    echo '<a href="#" class="buttons delete-button" onclick="showDeleteConfirmation(' . $property['PropertyID'] . ')">Delete</a>';
+                    echo '</div>'; // Close the button container div
                 
-                    /* can't test because i don't have access to the codd server
-                    $propertyImages = getPropertyImages($property['PropertyID']); // You need to implement this function
-                    if (!empty($propertyImages)) {
-                        $firstImageURL = $propertyImages[0]['imageURL'];
-                        echo "<img src='$firstImageURL' class='property-image' alt='Property Image'>";
-                    }*/
-                
-                    echo "<a href='propertyDetails.php?propertyID=" . $property['PropertyID'] . "' class='view-button'>View</a>";
-                    echo "<a href='editProperty.php?propertyID=" . $property['PropertyID'] . "' class='edit-button'>Edit</a>";
-                    echo "</div>";
+                    echo '</div>';
                 }
-                
             }
             ?>
 
             <!-- Button to Add New Property -->
-            <button onclick="window.location.href='addProperty.php'">+ Add New Property</button>
+            <button onclick="window.location.href='addProperty.php'" class="add-button">+ Add New Property</button>
         </section>
     </main>
+    <div id="deleteConfirmationModal" class="modal">
+    <div class="modal-content">
+        <h2>Delete Property</h2>
+        <p>Are you sure you want to delete this property?</p>
+        <button class="common-button" onclick="deleteProperty(<?php echo $property['PropertyID']; ?>)">Yes</button>
+        <button class="common-button" onclick="closeDeleteConfirmation()">No</button>
+    </div>
+</div>
 
     <footer>
         <!-- Footer content -->
