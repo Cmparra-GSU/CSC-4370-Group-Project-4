@@ -22,7 +22,6 @@ CREATE TABLE Property (
     status ENUM('forSale', 'pending', 'sold') NOT NULL DEFAULT 'forSale'
 );
 
-
 CREATE TABLE CreditCard (
     CardID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT,
@@ -41,9 +40,9 @@ CREATE TABLE PropertyImage (
 );
   
 CREATE TABLE Wishlist (
-    UserUID INT NOT NULL,
-    PropertyID INT NOT NULL,
-    PRIMARY KEY (UserUID, PropertyID),
+    WishlistID INT AUTO_INCREMENT PRIMARY KEY,
+    UserUID INT,
+    PropertyID INT,
     FOREIGN KEY (UserUID) REFERENCES User(UID),
     FOREIGN KEY (PropertyID) REFERENCES Property(PropertyID)
 );
@@ -55,3 +54,4 @@ CREATE TABLE ForSale (
     FOREIGN KEY (UserUID) REFERENCES User(UID),
     FOREIGN KEY (PropertyID) REFERENCES Property(PropertyID)
 );
+
